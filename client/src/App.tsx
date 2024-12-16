@@ -1,22 +1,18 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Home from './pages/Home';
-import { useEffect } from 'react';
-import axios from 'axios';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+
+import { SearchProvider } from "./context/SearchContext";
 
 function App() {
-    useEffect(() => {
-        axios.get('/api').then((res) => {  // check the proxy thing works
-            console.log(res.data);
-        });
-    }, []);
-
-    return (
-        <Router>
-            <Routes>
-                <Route path="/" element={<Home />} />
-            </Routes>
-        </Router>
-    );
+  return (
+    <SearchProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Home />} />
+        </Routes>
+      </Router>
+    </SearchProvider>
+  );
 }
 
 export default App;

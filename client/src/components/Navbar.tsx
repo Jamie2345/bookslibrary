@@ -1,4 +1,23 @@
+import { useSearch } from "../context/SearchContext";
+import { useState } from "react";
+import axios from "axios";
+
 export default function Navbar() {
+  const [searchQuery, setSearchQuery] = useState("");
+  const { setSearchResults } = useSearch();
+
+  const handleSearch = async () => {
+    try {
+      console.log(searchQuery);
+      const response = await axios.get(`/api/search?q=${searchQuery}`);
+      const data = response.data;
+      console.log(data);
+      setSearchResults(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <header>
       <div className="px-8 py-4 bg-base-200 fixed top-0 left-0 w-full z-10 flex items-center border-b-[1px] border-base-300 justify-between navbar">
@@ -7,32 +26,30 @@ export default function Navbar() {
             Jamie's Library
           </a>
         </div>
-        <div className="navbar-center hidden px-2 mr-2 lg:flex">
-          <ul className="menu menu-horizontal px-1 mr-1">
+        <div className="navbar-center hidden px-2 mr-24 lg:flex">
+          <ul className="menu menu-horizontal px-1 mr-2">
             <li>
-              <a>Item 1</a>
+              <a>Search</a>
             </li>
             <li>
-              <details>
-                <summary>Parent</summary>
-                <ul className="p-2">
-                  <li>
-                    <a>Submenu 1</a>
-                  </li>
-                  <li>
-                    <a>Submenu 2</a>
-                  </li>
-                </ul>
-              </details>
+              <a>Theme</a>
             </li>
             <li>
-              <a>Item 3</a>
+              <a>Random</a>
             </li>
           </ul>
         </div>
         <div className="navbar-end">
-          <input placeholder="Enter search" className="rounded-md border-[1px] border-primary p-2 w-full max-w-64 mr-2"></input>
-          <button className="bg-primary text-primary-content shadow-md rounded-md p-2 h-[42px] w-full max-w-16 text-sm font-semibold">Search</button>
+          <input
+            placeholder="Enter search"
+            className="rounded-md border-[1px] border-primary p-2 w-full max-w-64 mr-2"
+            onChange={(e) => {
+              setSearchQuery(e.target.value);
+            }}
+          ></input>
+          <button className="bg-primary text-primary-content shadow-md rounded-md p-2 h-[42px] w-full max-w-16 text-sm font-semibold" onClick={handleSearch}>
+            Search
+          </button>
         </div>
       </div>
     </header>
