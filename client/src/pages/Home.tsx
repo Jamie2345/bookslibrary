@@ -5,12 +5,12 @@ import { useEffect, useState } from "react";
 import { useSearch } from "../context/SearchContext";
 
 export default function Home() {
-  const [randomBooks, setRandomBooks] = useState([]);
-  const [businessBooks, setBusinessBooks] = useState([]);
-  const [personalDevelopmentBooks, setPersonalDevelopmentBooks] = useState([]);
-  const [philosophyBooks, setPhilosophyBooks] = useState([]);
-  const [historyBooks, setHistoryBooks] = useState([]);
-  const [fictionBooks, setFictionBooks] = useState([]);
+  const [randomBooks, setRandomBooks] = useState<any[]>([]);
+  const [businessBooks, setBusinessBooks] = useState<any[]>([]);
+  const [personalDevelopmentBooks, setPersonalDevelopmentBooks] = useState<any[]>([]);
+  const [philosophyBooks, setPhilosophyBooks] = useState<any[]>([]);
+  const [historyBooks, setHistoryBooks] = useState<any[]>([]);
+  const [fictionBooks, setFictionBooks] = useState<any[]>([]);
 
   const { searchResults, resetSearchResults } = useSearch();
 
@@ -21,17 +21,24 @@ export default function Home() {
   useEffect(() => {
     axios.get("/api/books").then((res) => {
       if (res.status === 200) {
-        setRandomBooks(res.data.random_books);
-        setBusinessBooks(res.data.business_books);
-        setPersonalDevelopmentBooks(res.data.personal_development_books);
-        setPhilosophyBooks(res.data.philosophy_books);
-        setHistoryBooks(res.data.history_books);
-        setFictionBooks(res.data.fiction_books);
-
-        console.log(res.data);
+        processBooks(res.data.all_books);
       }
     });
   }, []);
+
+  const processBooks = (books: Array<any>) => {
+    setRandomBooks(pickRandomItems(books, 8));
+    setBusinessBooks(pickRandomItems(books.filter(book => book["Book Genre"].includes("Business")), 4));
+    setPersonalDevelopmentBooks(pickRandomItems(books.filter(book => book["Book Genre"].includes("Personal Development")), 4));
+    setPhilosophyBooks(pickRandomItems(books.filter(book => book["Book Genre"].includes("Philosophy")), 4));
+    setHistoryBooks(pickRandomItems(books.filter(book => book["Book Genre"].includes("History")), 4));
+    setFictionBooks(pickRandomItems(books.filter(book => book["Book Genre"].includes("Fiction")), 4));
+  };
+
+  const pickRandomItems = (items: Array<any>, count: number) => {
+    const shuffled = [...items].sort(() => 0.5 - Math.random());
+    return shuffled.slice(0, count);
+  };
 
   return (
     <main data-theme="light" className="flex w-full min-h-screen bg-base-100">
