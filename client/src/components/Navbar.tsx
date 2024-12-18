@@ -12,7 +12,37 @@ export default function Navbar() {
       const response = await axios.get(`/api/search?q=${searchQuery}`);
       const data = response.data;
       console.log(data);
+
+      if (data.length <= 0) {
+        console.log("No results found");
+        alert("No results found");
+        return;
+      }
+
       setSearchResults(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleRandom = async () => {
+    try {
+      const response = await axios.get(`/api/randombook`);
+
+      const data = response.data;
+      console.log(data);
+
+      if (data.length <= 0) {
+        console.log("No results found");
+        alert("No results found");
+        return;
+      }
+
+      if (data._id) {
+        window.location.href = `/book/${data._id}`;
+      }
+
+      
     } catch (error) {
       console.error(error);
     }
@@ -35,7 +65,7 @@ export default function Navbar() {
               <a>Theme</a>
             </li>
             <li>
-              <a>Random</a>
+              <button onClick={handleRandom}>Random</button>
             </li>
           </ul>
         </div>

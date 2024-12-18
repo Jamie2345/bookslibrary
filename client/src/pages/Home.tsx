@@ -7,7 +7,9 @@ import { useSearch } from "../context/SearchContext";
 export default function Home() {
   const [randomBooks, setRandomBooks] = useState<any[]>([]);
   const [businessBooks, setBusinessBooks] = useState<any[]>([]);
-  const [personalDevelopmentBooks, setPersonalDevelopmentBooks] = useState<any[]>([]);
+  const [personalDevelopmentBooks, setPersonalDevelopmentBooks] = useState<
+    any[]
+  >([]);
   const [philosophyBooks, setPhilosophyBooks] = useState<any[]>([]);
   const [historyBooks, setHistoryBooks] = useState<any[]>([]);
   const [fictionBooks, setFictionBooks] = useState<any[]>([]);
@@ -16,11 +18,12 @@ export default function Home() {
 
   const handleResetSearchResults = () => {
     resetSearchResults();
-  }
+  };
 
   useEffect(() => {
     axios.get("/api/books").then((res) => {
       if (res.status === 200) {
+        console.log(res.data.all_books);
         processBooks(res.data.all_books);
       }
     });
@@ -28,11 +31,38 @@ export default function Home() {
 
   const processBooks = (books: Array<any>) => {
     setRandomBooks(pickRandomItems(books, 8));
-    setBusinessBooks(pickRandomItems(books.filter(book => book["Book Genre"].includes("Business")), 4));
-    setPersonalDevelopmentBooks(pickRandomItems(books.filter(book => book["Book Genre"].includes("Personal Development")), 4));
-    setPhilosophyBooks(pickRandomItems(books.filter(book => book["Book Genre"].includes("Philosophy")), 4));
-    setHistoryBooks(pickRandomItems(books.filter(book => book["Book Genre"].includes("History")), 4));
-    setFictionBooks(pickRandomItems(books.filter(book => book["Book Genre"].includes("Fiction")), 4));
+    setBusinessBooks(
+      pickRandomItems(
+        books.filter((book) => book["Book Genre"].includes("Business")),
+        4
+      )
+    );
+    setPersonalDevelopmentBooks(
+      pickRandomItems(
+        books.filter((book) =>
+          book["Book Genre"].includes("Personal Development")
+        ),
+        4
+      )
+    );
+    setPhilosophyBooks(
+      pickRandomItems(
+        books.filter((book) => book["Book Genre"].includes("Philosophy")),
+        4
+      )
+    );
+    setHistoryBooks(
+      pickRandomItems(
+        books.filter((book) => book["Book Genre"].includes("History")),
+        4
+      )
+    );
+    setFictionBooks(
+      pickRandomItems(
+        books.filter((book) => book["Book Genre"].includes("Fiction")),
+        4
+      )
+    );
   };
 
   const pickRandomItems = (items: Array<any>, count: number) => {
@@ -55,9 +85,17 @@ export default function Home() {
                   {randomBooks.map((book: any) => (
                     <div
                       key={book._id}
-                      className="mt-4 w-full max-w-96 rounded-md shadow-md bg-base-100 flex flex-col justify-between border-[1px] border-primary p-4"
+                      className="mt-4 w-full max-w-80 rounded-md shadow-md bg-base-100 flex flex-col justify-between border-[1px] border-primary p-4"
                     >
-                      <div></div>
+                      <a href={`/book/${book._id}`}>
+                        <div className="flex items-center justify-center mb-8">
+                          <img
+                            src={`/books/${book["folder_path"]}/${book["thumbnail"]}`}
+                            alt={book["Full Book Name"]}
+                            className="max-h-72"
+                          />
+                        </div>
+                      </a>
                       <div className="flex flex-col py-2">
                         <a href={`/book/${book._id}`}>
                           <h3 className="text-base-content text-md font-semibold">
@@ -67,11 +105,8 @@ export default function Home() {
                         <div className="w-full flex flex-wrap gap-2 mt-3">
                           {book["Book Genre"].map(
                             (genre: string, index: number) => (
-                              <a href={`/search?genre=${genre}`}>
-                                <span
-                                  key={index}
-                                  className="text-accent-content text-sm rounded-md shadow-sm py-1 px-2 bg-accent"
-                                >
+                              <a href={`/search?genre=${genre}`} key={index}>
+                                <span className="text-accent-content text-sm rounded-md shadow-sm py-1 px-2 bg-accent">
                                   {genre}
                                 </span>
                               </a>
@@ -99,9 +134,17 @@ export default function Home() {
                   {businessBooks.map((book: any) => (
                     <div
                       key={book._id}
-                      className="mt-4 w-full max-w-96 rounded-md shadow-md bg-base-100 flex flex-col justify-between border-[1px] border-primary p-4"
+                      className="mt-4 w-full max-w-80 rounded-md shadow-md bg-base-100 flex flex-col justify-between border-[1px] border-primary p-4"
                     >
-                      <div></div>
+                      <a href={`/book/${book._id}`}>
+                        <div className="flex items-center justify-center mb-8">
+                          <img
+                            src={`/books/${book["folder_path"]}/${book["thumbnail"]}`}
+                            alt={book["Full Book Name"]}
+                            className="max-h-72"
+                          />
+                        </div>
+                      </a>
                       <div className="flex flex-col py-2">
                         <a href={`/book/${book._id}`}>
                           <h3 className="text-base-content text-md font-semibold">
@@ -109,16 +152,15 @@ export default function Home() {
                           </h3>
                         </a>
                         <div className="w-full flex flex-wrap gap-2 mt-4">
-                          {book["Book Genre"].map((genre: string) => (
-                            <a href={`/search?genre=${genre}`}>
-                              <span
-                                key={genre}
-                                className="text-accent-content text-sm rounded-md shadow-sm py-1 px-2 bg-accent"
-                              >
-                                {genre}
-                              </span>
-                            </a>
-                          ))}
+                          {book["Book Genre"].map(
+                            (genre: string, index: number) => (
+                              <a href={`/search?genre=${genre}`} key={index}>
+                                <span className="text-accent-content text-sm rounded-md shadow-sm py-1 px-2 bg-accent">
+                                  {genre}
+                                </span>
+                              </a>
+                            )
+                          )}
                         </div>
                         <div className="w-full flex flex-wrap gap-2 mt-3">
                           <a href={`/search?author=${book["Author Name"]}`}>
@@ -141,9 +183,17 @@ export default function Home() {
                   {personalDevelopmentBooks.map((book: any) => (
                     <div
                       key={book._id}
-                      className="mt-4 w-full max-w-96 rounded-md shadow-md bg-base-100 flex flex-col justify-between border-[1px] border-primary p-4"
+                      className="mt-4 w-full max-w-80 rounded-md shadow-md bg-base-100 flex flex-col justify-between border-[1px] border-primary p-4"
                     >
-                      <div></div>
+                      <a href={`/book/${book._id}`}>
+                        <div className="flex items-center justify-center mb-8">
+                          <img
+                            src={`/books/${book["folder_path"]}/${book["thumbnail"]}`}
+                            alt={book["Full Book Name"]}
+                            className="max-h-72"
+                          />
+                        </div>
+                      </a>
                       <div className="flex flex-col py-2">
                         <a href={`/book/${book._id}`}>
                           <h3 className="text-base-content text-md font-semibold">
@@ -151,16 +201,15 @@ export default function Home() {
                           </h3>
                         </a>
                         <div className="w-full flex flex-wrap gap-2 mt-4">
-                          {book["Book Genre"].map((genre: string) => (
-                            <a href={`/search?genre=${genre}`}>
-                              <span
-                                key={genre}
-                                className="text-accent-content text-sm rounded-md shadow-sm py-1 px-2 bg-accent"
-                              >
-                                {genre}
-                              </span>
-                            </a>
-                          ))}
+                          {book["Book Genre"].map(
+                            (genre: string, index: number) => (
+                              <a href={`/search?genre=${genre}`} key={index}>
+                                <span className="text-accent-content text-sm rounded-md shadow-sm py-1 px-2 bg-accent">
+                                  {genre}
+                                </span>
+                              </a>
+                            )
+                          )}
                         </div>
                         <div className="w-full flex flex-wrap gap-2 mt-3">
                           <a href={`/search?author=${book["Author Name"]}`}>
@@ -183,9 +232,17 @@ export default function Home() {
                   {philosophyBooks.map((book: any) => (
                     <div
                       key={book._id}
-                      className="mt-4 w-full max-w-96 rounded-md shadow-md bg-base-100 flex flex-col justify-between border-[1px] border-primary p-4"
+                      className="mt-4 w-full max-w-80 rounded-md shadow-md bg-base-100 flex flex-col justify-between border-[1px] border-primary p-4"
                     >
-                      <div></div>
+                      <a href={`/book/${book._id}`}>
+                        <div className="flex items-center justify-center mb-8">
+                          <img
+                            src={`/books/${book["folder_path"]}/${book["thumbnail"]}`}
+                            alt={book["Full Book Name"]}
+                            className="max-h-72"
+                          />
+                        </div>
+                      </a>
                       <div className="flex flex-col py-2">
                         <a href={`/book/${book._id}`}>
                           <h3 className="text-base-content text-md font-semibold">
@@ -193,16 +250,15 @@ export default function Home() {
                           </h3>
                         </a>
                         <div className="w-full flex flex-wrap gap-2 mt-4">
-                          {book["Book Genre"].map((genre: string) => (
-                            <a href={`/search?genre=${genre}`}>
-                              <span
-                                key={genre}
-                                className="text-accent-content text-sm rounded-md shadow-sm py-1 px-2 bg-accent"
-                              >
-                                {genre}
-                              </span>
-                            </a>
-                          ))}
+                          {book["Book Genre"].map(
+                            (genre: string, index: number) => (
+                              <a href={`/search?genre=${genre}`} key={index}>
+                                <span className="text-accent-content text-sm rounded-md shadow-sm py-1 px-2 bg-accent">
+                                  {genre}
+                                </span>
+                              </a>
+                            )
+                          )}
                         </div>
                         <div className="w-full flex flex-wrap gap-2 mt-3">
                           <a href={`/search?author=${book["Author Name"]}`}>
@@ -225,9 +281,17 @@ export default function Home() {
                   {historyBooks.map((book: any) => (
                     <div
                       key={book._id}
-                      className="mt-4 w-full max-w-96 rounded-md shadow-md bg-base-100 flex flex-col justify-between border-[1px] border-primary p-4"
+                      className="mt-4 w-full max-w-80 rounded-md shadow-md bg-base-100 flex flex-col justify-between border-[1px] border-primary p-4"
                     >
-                      <div></div>
+                      <a href={`/book/${book._id}`}>
+                        <div className="flex items-center justify-center mb-8">
+                          <img
+                            src={`/books/${book["folder_path"]}/${book["thumbnail"]}`}
+                            alt={book["Full Book Name"]}
+                            className="max-h-72"
+                          />
+                        </div>
+                      </a>
                       <div className="flex flex-col py-2">
                         <a href={`/book/${book._id}`}>
                           <h3 className="text-base-content text-md font-semibold">
@@ -235,16 +299,15 @@ export default function Home() {
                           </h3>
                         </a>
                         <div className="w-full flex flex-wrap gap-2 mt-4">
-                          {book["Book Genre"].map((genre: string) => (
-                            <a href={`/search?genre=${genre}`}>
-                              <span
-                                key={genre}
-                                className="text-accent-content text-sm rounded-md shadow-sm py-1 px-2 bg-accent"
-                              >
-                                {genre}
-                              </span>
-                            </a>
-                          ))}
+                          {book["Book Genre"].map(
+                            (genre: string, index: number) => (
+                              <a href={`/search?genre=${genre}`} key={index}>
+                                <span className="text-accent-content text-sm rounded-md shadow-sm py-1 px-2 bg-accent">
+                                  {genre}
+                                </span>
+                              </a>
+                            )
+                          )}
                         </div>
                         <div className="w-full flex flex-wrap gap-2 mt-3">
                           <a href={`/search?author=${book["Author Name"]}`}>
@@ -267,9 +330,17 @@ export default function Home() {
                   {fictionBooks.map((book: any) => (
                     <div
                       key={book._id}
-                      className="mt-4 w-full max-w-96 rounded-md shadow-md bg-base-100 flex flex-col justify-between border-[1px] border-primary p-4"
+                      className="mt-4 w-full max-w-80 rounded-md shadow-md bg-base-100 flex flex-col justify-between border-[1px] border-primary p-4"
                     >
-                      <div></div>
+                      <a href={`/book/${book._id}`}>
+                        <div className="flex items-center justify-center mb-8">
+                          <img
+                            src={`/books/${book["folder_path"]}/${book["thumbnail"]}`}
+                            alt={book["Full Book Name"]}
+                            className="max-h-72"
+                          />
+                        </div>
+                      </a>
                       <div className="flex flex-col py-2">
                         <a href={`/book/${book._id}`}>
                           <h3 className="text-base-content text-md font-semibold">
@@ -277,16 +348,15 @@ export default function Home() {
                           </h3>
                         </a>
                         <div className="w-full flex flex-wrap gap-2 mt-4">
-                          {book["Book Genre"].map((genre: string) => (
-                            <a href={`/search?genre=${genre}`}>
-                              <span
-                                key={genre}
-                                className="text-accent-content text-sm rounded-md shadow-sm py-1 px-2 bg-accent"
-                              >
-                                {genre}
-                              </span>
-                            </a>
-                          ))}
+                          {book["Book Genre"].map(
+                            (genre: string, index: number) => (
+                              <a href={`/search?genre=${genre}`} key={index}>
+                                <span className="text-accent-content text-sm rounded-md shadow-sm py-1 px-2 bg-accent">
+                                  {genre}
+                                </span>
+                              </a>
+                            )
+                          )}
                         </div>
                         <div className="w-full flex flex-wrap gap-2 mt-3">
                           <a href={`/search?author=${book["Author Name"]}`}>
@@ -307,15 +377,28 @@ export default function Home() {
                 <h2 className="text-base-content text-xl font-semibold mr-4">
                   Search Results
                 </h2>
-                <button className="bg-primary text-primary-content shadow-md rounded-md p-[6px] text-sm font-semibold" onClick={handleResetSearchResults}>Clear</button>
+                <button
+                  className="bg-primary text-primary-content shadow-md rounded-md p-[6px] text-sm font-semibold"
+                  onClick={handleResetSearchResults}
+                >
+                  Clear
+                </button>
               </div>
               <div className="w-full flex flex-wrap gap-4">
                 {searchResults.map((book: any) => (
                   <div
                     key={book._id}
-                    className="mt-4 w-full max-w-96 rounded-md shadow-md bg-base-100 flex flex-col justify-between border-[1px] border-primary p-4"
+                    className="mt-4 w-full max-w-80 rounded-md shadow-md bg-base-100 flex flex-col justify-between border-[1px] border-primary p-4"
                   >
-                    <div></div>
+                    <a href={`/book/${book._id}`}>
+                      <div className="flex items-center justify-center mb-8">
+                        <img
+                          src={`/books/${book["folder_path"]}/${book["thumbnail"]}`}
+                          alt={book["Full Book Name"]}
+                          className="max-h-72"
+                        />
+                      </div>
+                    </a>
                     <div className="flex flex-col py-2">
                       <a href={`/book/${book._id}`}>
                         <h3 className="text-base-content text-md font-semibold">
