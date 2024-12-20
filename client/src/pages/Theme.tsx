@@ -1,7 +1,7 @@
 import NavbarNoSearch from "../components/NavbarNoSearch";
 import Select from "react-select";
 import { themeOptions } from "../data/themeOptions";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function Theme() {
   const [theme, setTheme] = useState(() => {
