@@ -2,29 +2,7 @@ import { useSearch } from "../context/SearchContext";
 import { useState } from "react";
 import axios from "axios";
 
-export default function Navbar() {
-  const [searchQuery, setSearchQuery] = useState("");
-  const { setSearchResults } = useSearch();
-
-  const handleSearch = async () => {
-    try {
-      console.log(searchQuery);
-      const response = await axios.get(`/api/search?q=${searchQuery}`);
-      const data = response.data;
-      console.log(data);
-
-      if (data.length <= 0) {
-        console.log("No results found");
-        alert("No results found");
-        return;
-      }
-
-      setSearchResults(data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
+export default function NavbarNoSearch() {
   const handleRandom = async () => {
     try {
       const response = await axios.get(`/api/randombook`);
@@ -41,8 +19,6 @@ export default function Navbar() {
       if (data._id) {
         window.location.href = `/book/${data._id}`;
       }
-
-      
     } catch (error) {
       console.error(error);
     }
@@ -59,7 +35,7 @@ export default function Navbar() {
         <div className="navbar-center hidden px-2 mr-24 lg:flex">
           <ul className="menu menu-horizontal px-1 mr-2">
             <li>
-              <a href="/search">Search</a>
+              <a>Search</a>
             </li>
             <li>
               <a>Theme</a>
@@ -68,18 +44,6 @@ export default function Navbar() {
               <button onClick={handleRandom}>Random</button>
             </li>
           </ul>
-        </div>
-        <div className="navbar-end">
-          <input
-            placeholder="Enter search"
-            className="rounded-md border-[1px] border-primary p-2 w-full max-w-64 mr-2"
-            onChange={(e) => {
-              setSearchQuery(e.target.value);
-            }}
-          ></input>
-          <button className="bg-primary text-primary-content shadow-md rounded-md p-2 h-[42px] w-full max-w-16 text-sm font-semibold" onClick={handleSearch}>
-            Search
-          </button>
         </div>
       </div>
     </header>

@@ -8,8 +8,12 @@ require("dotenv").config();
 
 const fs = require("fs");
 const path = require("path");
-const booksDirectory = path.join(__dirname, 'books');
+const booksDirectory = path.join(__dirname, "books");
 console.log(booksDirectory);
+
+const bodyParser = require("body-parser");
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get("/api/books", async (req, res) => {
   const client = new MongoClient(process.env.MONGODB_URI);
@@ -146,7 +150,122 @@ app.get("/api/randombook", async (req, res) => {
   }
 });
 
-app.use('/books', express.static(booksDirectory));
+app.get("/api/authors", async (req, res) => {
+  const client = new MongoClient(process.env.MONGODB_URI);
+
+  try {
+    // Connect to MongoDB
+    await client.connect();
+    console.log("Connected to MongoDB");
+
+    // Access the database and collection
+    const database = client.db("BooksDatabase");
+    const booksCollection = database.collection("books");
+
+    const authors = await booksCollection.distinct("Author Name");
+
+    return res.status(200).json(authors);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error searching the database");
+  } finally {
+    // Close the database connection
+    await client.close();
+  }
+});
+
+app.get("/api/genres", async (req, res) => {
+  const client = new MongoClient(process.env.MONGODB_URI);
+
+  try {
+    // Connect to MongoDB
+    await client.connect();
+    console.log("Connected to MongoDB");
+
+    // Access the database and collection
+    const database = client.db("BooksDatabase");
+    const booksCollection = database.collection("books");
+
+    const genres = await booksCollection.distinct("Book Genre");
+
+    return res.status(200).json(genres);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error searching the database");
+  } finally {
+    // Close the database connection
+    await client.close();
+  }
+});
+
+app.get("/api/titles", async (req, res) => {
+  const client = new MongoClient(process.env.MONGODB_URI);
+
+  try {
+    // Connect to MongoDB
+    await client.connect();
+    console.log("Connected to MongoDB");
+
+    // Access the database and collection
+    const database = client.db("BooksDatabase");
+    const booksCollection = database.collection("books");
+
+    const bookTitles = await booksCollection.distinct("Full Book Name");
+
+    return res.status(200).json(bookTitles);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error searching the database");
+  } finally {
+    // Close the database connection
+    await client.close();
+  }
+});
+
+app.post("/api/searchfilter/", async (req, res) => {
+  const client = new MongoClient(process.env.MONGODB_URI);
+
+  const {author, genres, title} = req.body;
+
+  console.log(author);
+  console.log(genres);
+
+  try {
+    // Connect to MongoDB
+    await client.connect();
+    console.log("Connected to MongoDB");
+
+    // Access the database and collection
+    const database = client.db("BooksDatabase");
+    const booksCollection = database.collection("books");
+
+    const filter = {};
+
+    if (title) {
+      filter["Full Book Name"] = title;
+    }
+
+    if (author) {
+      filter["Author Name"] = author;
+    }
+
+    if (genres && genres.length > 0) {
+      filter["Book Genre"] = { $in: genres };
+    }
+
+    const books = await booksCollection.find(filter).toArray();
+
+    return res.status(200).json(books);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error searching the database");
+  } finally {
+    // Close the database connection
+    await client.close();
+  }
+});
+
+app.use("/books", express.static(booksDirectory));
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
