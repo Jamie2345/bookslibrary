@@ -59,7 +59,7 @@ export default function Book() {
   console.log(PDF_FILE, EPUB_FILE);
 
   return (
-    <main className="flex w-full min-h-screen bg-base-100">
+    <main className="flex w-full min-h-screen bg-base-200">
       <Navbar />
       {searchResults.length <= 0 ? (
         <div className="flex w-full mt-40 mx-24 mb-16">
@@ -79,7 +79,7 @@ export default function Book() {
                 </h2>
                 <div
                   tabIndex={0}
-                  className="collapse collapse-arrow border-base-300 bg-base-200 border"
+                  className="collapse collapse-arrow border-base-300 bg-base-100 border"
                 >
                   <div className="collapse-title text-lg font-medium">
                     Description
@@ -148,7 +148,7 @@ export default function Book() {
                     {PDF_FILE && (
                       <div className="flex items-center">
                         <a
-                          href={`/books/${book.folder_path}/_OceanofPDF.com_${PDF_FILE}`}
+                          href={`/books/${book.folder_path}/_OceanofPDF.com_${PDF_FILE}`} target="_blank"
                           className="btn btn-primary mr-6 shadow-md border-accent"
                         >
                           Open PDF

@@ -24,7 +24,7 @@ export default function NavbarNoSearch() {
 
   return (
     <header>
-      <div className="px-8 py-4 bg-base-200 fixed top-0 left-0 w-full z-10 flex items-center border-b-[1px] border-base-200 justify-between navbar">
+      <div className="px-8 py-4 bg-base-100 fixed top-0 left-0 w-full z-10 flex items-center border-b-[1px] border-base-200 justify-between navbar">
         <div className="navbar-start">
           <a href="/" className="text-lg font-bold text-base-content btn btn-ghost">
             Jamie's Library

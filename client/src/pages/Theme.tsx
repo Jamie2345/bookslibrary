@@ -18,7 +18,7 @@ export default function Theme() {
   );
 
   return (
-    <main className="flex w-full min-h-screen bg-base-100">
+    <main className="flex w-full min-h-screen bg-base-200">
       <NavbarNoSearch />
       <div className="flex w-full flex-col my-32 mx-20">
         <h2 className="mb-4 text-lg font-semibold text-base-content">

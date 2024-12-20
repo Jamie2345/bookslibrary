@@ -71,7 +71,7 @@ export default function Home() {
   };
 
   return (
-    <main className="flex w-full min-h-screen bg-base-100">
+    <main className="flex w-full min-h-screen bg-base-200">
       <Navbar />
       <div className="flex w-full my-32 mx-20">
         <div className="w-full flex flex-col">

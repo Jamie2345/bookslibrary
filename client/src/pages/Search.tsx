@@ -78,7 +78,7 @@ export default function Search() {
   //if (titles.length == 0 || authors.length == 0 || genres.length == 0) return;
 
   return (
-    <main className="flex w-full min-h-screen bg-base-100">
+    <main className="flex w-full min-h-screen bg-base-200">
       <NavbarNoSearch />
       <div className="flex w-full flex-col my-32 mx-20">
         {titles.length == 0 || authors.length == 0 || genres.length == 0 ? (
