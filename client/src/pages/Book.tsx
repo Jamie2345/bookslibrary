@@ -59,7 +59,7 @@ export default function Book() {
   console.log(PDF_FILE, EPUB_FILE);
 
   return (
-    <main data-theme="light" className="flex w-full min-h-screen bg-base-100">
+    <main className="flex w-full min-h-screen bg-base-100">
       <Navbar />
       {searchResults.length <= 0 ? (
         <div className="flex w-full mt-40 mx-24 mb-16">

@@ -1,5 +1,3 @@
-import { useSearch } from "../context/SearchContext";
-import { useState } from "react";
 import axios from "axios";
 
 export default function NavbarNoSearch() {
@@ -26,7 +24,7 @@ export default function NavbarNoSearch() {
 
   return (
     <header>
-      <div className="px-8 py-4 bg-base-200 fixed top-0 left-0 w-full z-10 flex items-center border-b-[1px] border-base-300 justify-between navbar">
+      <div className="px-8 py-4 bg-base-200 fixed top-0 left-0 w-full z-10 flex items-center border-b-[1px] border-base-200 justify-between navbar">
         <div className="navbar-start">
           <a href="/" className="text-lg font-bold text-base-content btn btn-ghost">
             Jamie's Library
@@ -35,10 +33,10 @@ export default function NavbarNoSearch() {
         <div className="navbar-center hidden px-2 mr-24 lg:flex">
           <ul className="menu menu-horizontal px-1 mr-2">
             <li>
-              <a>Search</a>
+              <a href="/search">Search</a>
             </li>
             <li>
-              <a>Theme</a>
+              <a href="/theme">Theme</a>
             </li>
             <li>
               <button onClick={handleRandom}>Random</button>
