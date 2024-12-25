@@ -8,7 +8,7 @@ require("dotenv").config();
 
 const fs = require("fs");
 const path = require("path");
-const booksDirectory = path.join(__dirname, "books");
+const booksDirectory = "/BOOKS_PATH"; // Replace with the path to your books directory
 console.log(booksDirectory);
 
 const bodyParser = require("body-parser");
