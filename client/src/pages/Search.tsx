@@ -80,7 +80,7 @@ export default function Search() {
   return (
     <main className="flex w-full min-h-screen bg-base-200">
       <NavbarNoSearch />
-      <div className="flex w-full flex-col my-32 mx-20">
+      <div className="flex w-full flex-col my-32 mx-12 lg:mx-24">
         {titles.length == 0 || authors.length == 0 || genres.length == 0 ? (
           <h2 className="text-base-content text-md">Loading...</h2>
         ) : (
@@ -89,7 +89,7 @@ export default function Search() {
               Search
             </h2>
             <div className="w-full flex flex-col">
-              <div className="w-full flex items-center">
+              <div className="w-full flex flex-col lg:flex-row lg:items-center">
                 {titles && titles.length > 0 && (
                   <Select
                     options={titles.map((title) => ({
@@ -105,7 +105,7 @@ export default function Search() {
                       }
                     }}
                     isClearable={true}
-                    className="w-full mr-4 max-w-[300px]"
+                    className="w-full mr-4 lg:max-w-[300px] mb-2 lg:mb-0"
                     placeholder="Select book title"
                     theme={(theme) => ({
                       ...theme,
@@ -152,7 +152,7 @@ export default function Search() {
                       }
                     }}
                     isClearable={true}
-                    className="w-full mr-4 max-w-[300px]"
+                    className="w-full mr-4 lg:max-w-[300px] mb-2 lg:mb-0"
                     placeholder="Select author"
                     theme={(theme) => ({
                       ...theme,
@@ -202,7 +202,7 @@ export default function Search() {
                     }}
                     isMulti={true}
                     isClearable={true}
-                    className="w-full mr-4"
+                    className="w-full mr-4 mb-2 lg:mb-0"
                     placeholder="Select genre / genres"
                     theme={(theme) => ({
                       ...theme,

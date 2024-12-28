@@ -62,12 +62,12 @@ export default function Book() {
     <main className="flex w-full min-h-screen bg-base-200">
       <Navbar />
       {searchResults.length <= 0 ? (
-        <div className="flex w-full mt-40 mx-24 mb-16">
+        <div className="flex w-full mt-32 lg:mt-48 mx-12 lg:mx-24 mb-16">
           {errMsg ? (
             <h3 className="text-lg font-bold text-base-content/80">{errMsg}</h3>
           ) : (
-            <div className="flex w-full flex-1">
-              <div className="w-1/2 flex justify-center mr-12">
+            <div className="flex flex-col lg:flex-row w-full flex-1">
+              <div className="w-full lg:w-1/2 flex justify-center mr-12 mb-12 lg:mb-0">
                 <img className="max-h-[600px]"
                   src={`/books/${book["folder_path"]}/${book["thumbnail"]}`}
                   alt={book["Full Book Name"]}
@@ -99,8 +99,8 @@ export default function Book() {
                     {book["Author Name"]}
                   </li>
                   <li className="text-base-content/80 font-semibold mb-8">
-                    <div className="flex">
-                      <span className="font-bold text-base-content mr-4">
+                    <div className="flex flex-col lg:flex-row">
+                      <span className="font-bold text-base-content mb-2 lg:mr-4 lg:mb-0">
                         Genres:
                       </span>{" "}
                       <div className="w-full flex flex-wrap gap-2">
