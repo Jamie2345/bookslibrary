@@ -62,7 +62,7 @@ export default function Book() {
     <main className="flex w-full min-h-screen bg-base-200">
       <Navbar />
       {searchResults.length <= 0 ? (
-        <div className="flex w-full mt-32 lg:mt-48 mx-12 lg:mx-24 mb-16">
+        <div className="flex w-full mt-32 lg:mt-48 mx-12 lg:mx-20 mb-16">
           {errMsg ? (
             <h3 className="text-lg font-bold text-base-content/80">{errMsg}</h3>
           ) : (
