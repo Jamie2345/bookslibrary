@@ -68,7 +68,8 @@ export default function Book() {
           ) : (
             <div className="flex flex-col lg:flex-row w-full flex-1">
               <div className="w-full lg:w-1/2 flex justify-center mr-12 mb-12 lg:mb-0">
-                <img className="max-h-[600px]"
+                <img
+                  className="max-h-[600px]"
                   src={`/books/${book["folder_path"]}/${book["thumbnail"]}`}
                   alt={book["Full Book Name"]}
                 />
@@ -122,64 +123,96 @@ export default function Book() {
                     </span>{" "}
                     {book["Date of Publication"]}
                   </li>
-                  <li className="text-base-content/80 font-semibold mb-1">
-                    <span className="font-bold text-base-content mr-1">
-                      PDF Size:
-                    </span>{" "}
-                    {typeof book?.["PDF File Size"] === "string"
-                      ? book["PDF File Size"]
-                      : typeof book?.["PDF File Size"] === "object" &&
-                        book["PDF File Size"] !== null
-                      ? `${book["PDF File Size"].size} ${book["PDF File Size"].unit}`
-                      : "Not Available"}
-                  </li>
-                  <li className="text-base-content/80 font-semibold mb-1">
-                    <span className="font-bold text-base-content mr-1">
-                      EPUB Size:
-                    </span>{" "}
-                    {typeof book?.["EPUB File Size"] === "string"
-                      ? book["EPUB File Size"]
-                      : typeof book?.["EPUB File Size"] === "object" &&
-                        book["EPUB File Size"] !== null
-                      ? `${book["EPUB File Size"].size} ${book["EPUB File Size"].unit}`
-                      : "Not Available"}
-                  </li>
-                  <div className="flex flex-col mt-12">
-                    {PDF_FILE && (
-                      <div className="flex items-center">
-                        <a
-                          href={`/books/${book.folder_path}/_OceanofPDF.com_${PDF_FILE}`} target="_blank"
-                          className="btn btn-primary mr-6 shadow-md border-accent"
-                        >
-                          Open PDF
-                        </a>
-                        <a
-                          href={`/books/${book.folder_path}/_OceanofPDF.com_${PDF_FILE}`}
-                          className="btn btn-primary mr-6 shadow-md border-accent"
-                          download
-                        >
-                          Download PDF
-                        </a>
+                  {book["source"] == "OceanOfPdf" ? (
+                    <>
+                      <li className="text-base-content/80 font-semibold mb-1">
+                        <span className="font-bold text-base-content mr-1">
+                          PDF Size:
+                        </span>{" "}
+                        {typeof book?.["PDF File Size"] === "string"
+                          ? book["PDF File Size"]
+                          : typeof book?.["PDF File Size"] === "object" &&
+                            book["PDF File Size"] !== null
+                          ? `${book["PDF File Size"].size} ${book["PDF File Size"].unit}`
+                          : "Not Available"}
+                      </li>
+                      <li className="text-base-content/80 font-semibold mb-1">
+                        <span className="font-bold text-base-content mr-1">
+                          EPUB Size:
+                        </span>{" "}
+                        {typeof book?.["EPUB File Size"] === "string"
+                          ? book["EPUB File Size"]
+                          : typeof book?.["EPUB File Size"] === "object" &&
+                            book["EPUB File Size"] !== null
+                          ? `${book["EPUB File Size"].size} ${book["EPUB File Size"].unit}`
+                          : "Not Available"}
+                      </li>
+                      <div className="flex flex-col mt-12">
+                        {PDF_FILE && (
+                          <div className="flex items-center">
+                            <a
+                              href={`/books/${book.folder_path}/_OceanofPDF.com_${PDF_FILE}`}
+                              target="_blank"
+                              className="btn btn-primary mr-6 shadow-md border-accent"
+                            >
+                              Open PDF
+                            </a>
+                            <a
+                              href={`/books/${book.folder_path}/_OceanofPDF.com_${PDF_FILE}`}
+                              className="btn btn-primary mr-6 shadow-md border-accent"
+                              download
+                            >
+                              Download PDF
+                            </a>
+                          </div>
+                        )}
+                        {EPUB_FILE && (
+                          <div className="flex items-center mt-6">
+                            <a
+                              href={`/books/${book.folder_path}/_OceanofPDF.com_${EPUB_FILE}`}
+                              className="btn btn-secondary mr-6 shadow-md border-accent"
+                            >
+                              Open EPUB
+                            </a>
+                            <a
+                              href={`/books/${book.folder_path}/_OceanofPDF.com_${EPUB_FILE}`}
+                              download
+                              className="btn btn-secondary shadow-md border-accent"
+                            >
+                              Download EPUB
+                            </a>
+                          </div>
+                        )}
                       </div>
-                    )}
-                    {EPUB_FILE && (
-                      <div className="flex items-center mt-6">
-                        <a
-                          href={`/books/${book.folder_path}/_OceanofPDF.com_${EPUB_FILE}`}
-                          className="btn btn-secondary mr-6 shadow-md border-accent"
-                        >
-                          Open EPUB
-                        </a>
-                        <a
-                          href={`/books/${book.folder_path}/_OceanofPDF.com_${EPUB_FILE}`}
-                          download
-                          className="btn btn-secondary shadow-md border-accent"
-                        >
-                          Download EPUB
-                        </a>
+                    </>
+                  ) : (
+                    <>
+                      <li className="text-base-content/80 font-semibold mb-1">
+                        <span className="font-bold text-base-content mr-1">
+                          File Size:
+                        </span>{" "}
+                        {book.file_data}
+                      </li>
+                      <div className="flex flex-col mt-12">
+                        <div className="flex items-center">
+                          <a
+                            href={`/books/${book.folder_path}/${book.file_name}`}
+                            target="_blank"
+                            className="btn btn-primary mr-6 shadow-md border-accent"
+                          >
+                            Open File
+                          </a>
+                          <a
+                            href={`/books/${book.folder_path}/${book.file_name}`}
+                            className="btn btn-primary mr-6 shadow-md border-accent"
+                            download
+                          >
+                            Download File
+                          </a>
+                        </div>
                       </div>
-                    )}
-                  </div>
+                    </>
+                  )}
                 </ul>
               </div>
             </div>
